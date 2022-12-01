@@ -30,7 +30,6 @@ function login() {
     //check valid user
     async function getss() {
         const session = await getSession()
-
         if (session) {
             router.push('/')
         } else {
@@ -49,23 +48,21 @@ function login() {
 
         const userdata = JSON.stringify(data)
         try {
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_PATH}/login`, { email: data.Email, password: data.Password })
+            const res = await signIn("credentials", {
+                userdata,
+                redirect: false,
+                callbackUrl: '/'
+            })
 
-            if (res.data.data.token && res.status == 200) {
-                await signIn("credentials", {
-                    userdata,
-                    redirect: true,
-                    callbackUrl: '/'
-                })
+            if (res.ok) {
+                router.push("/");
             } else {
-                setApiError(`${res.data} Something went wrong in api`)
+                setApiError("Invalid User Name or Password")
+                //  console.log(res)
             }
-
-        }
-        catch (err) {
-            console.log(err)
-            setApiError("Invalid User Name or Password")
-
+        } catch (err) {
+            // console.log(err)
+            setApiError(`Something went wrong in api`)
         }
     }
     const loginWithProvider = async (loginProvider) => {
@@ -87,7 +84,7 @@ function login() {
 
                                     <form onSubmit={handleSubmit(onSubmit)} >
                                         <div className="mb-3">
-                                            <label for="" className="form-label">Email address</label>
+                                            <label className="form-label">Email address</label>
                                             <input
 
                                                 {...register("Email")}
@@ -96,7 +93,7 @@ function login() {
                                             {errors.Email && <p className='my-2 text-danger'>{errors.Email.message}</p>}
                                         </div>
                                         <div className="mb-3">
-                                        <label for="" className="form-label">Password</label>
+                                            <label className="form-label">Password</label>
 
                                             <div className="input-group mb-3">
 
@@ -134,10 +131,10 @@ function login() {
                                         </div>
 
                                         <div className="form-check my-3 w-100 text-center">
-                                             <label className="form-check-label" htmlFor="rememberPasswordCheck">
-                                             <Link href="forgot-password" > Forgot password</Link>
+                                            <label className="form-check-label" htmlFor="rememberPasswordCheck">
+                                                <Link href="forgot-password" > Forgot password</Link>
                                             </label>
-                                            
+
                                         </div>
 
                                         <div className="d-grid">

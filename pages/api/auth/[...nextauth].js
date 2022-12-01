@@ -39,7 +39,8 @@ export default NextAuth({
                     const decoded = await jwt_decode(res.data.data.token);
                     return decoded
                 } catch (err) {
-                    console.log(err);
+                    throw new Error(err);
+
                 }
             }
         })
