@@ -7,6 +7,7 @@ import * as yup from "yup";
 import axios from 'axios';
 import { } from 'react-icons/ai';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import Link from 'next/link';
 
 
 const schema = yup.object({
@@ -63,7 +64,7 @@ function login() {
         }
         catch (err) {
             console.log(err)
-            setApiError("Email and Password In incorrect")
+            setApiError("Invalid User Name or Password")
 
         }
     }
@@ -86,7 +87,7 @@ function login() {
 
                                     <form onSubmit={handleSubmit(onSubmit)} >
                                         <div className="mb-3">
-                                            {/* <label for="exampleFormControlInput1" className="form-label">Email address</label> */}
+                                            <label for="" className="form-label">Email address</label>
                                             <input
 
                                                 {...register("Email")}
@@ -95,8 +96,10 @@ function login() {
                                             {errors.Email && <p className='my-2 text-danger'>{errors.Email.message}</p>}
                                         </div>
                                         <div className="mb-3">
+                                        <label for="" className="form-label">Password</label>
 
                                             <div className="input-group mb-3">
+
                                                 <input type={showPassword ? "text" : "password"} autoComplete="on"  {...register("Password")} className="form-control" placeholder="Password" aria-label="Recipient's username" aria-describedby="pass-addon2" />
                                                 <div className="input-group-append">
 
@@ -124,10 +127,27 @@ function login() {
                                                 Remember password
                                             </label>
                                         </div>
+
                                         <div className="d-grid">
                                             <button className="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Login</button>
                                             {/*  onClick={() => handleClick()} */}
                                         </div>
+
+                                        <div className="form-check my-3 w-100 text-center">
+                                             <label className="form-check-label" htmlFor="rememberPasswordCheck">
+                                             <Link href="forgot-password" > Forgot password</Link>
+                                            </label>
+                                            
+                                        </div>
+
+                                        <div className="d-grid">
+                                            <Link href="signup" > <button className="btn btn-secondary btn-login text-uppercase fw-bold w-100" type="submit">
+                                                Regiter
+                                            </button></Link>
+                                            {/*  onClick={() => handleClick()} */}
+                                        </div>
+
+
 
                                     </form>
                                     <hr className="my-4" />
